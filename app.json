@@ -25,6 +25,12 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "2311a342-1e6f-4214-b6ee-91ea0b9f69bd"
+      }
+    },
+    "owner": "molxno.dev"
   }
 }
