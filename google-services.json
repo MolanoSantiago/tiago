@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "360549908242",
+    "project_id": "tiago-13ca7",
+    "storage_bucket": "tiago-13ca7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:360549908242:android:5b30ddec51cde955a0fdcb",
+        "android_client_info": {
+          "package_name": "com.molxno.dev.tiago"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "360549908242-cljv7l596jcbm2mubc8iskjefbfgg5hb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC7KHkKiWm4mf-LqrbOGgsTaIRg1Rt72bU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "360549908242-cljv7l596jcbm2mubc8iskjefbfgg5hb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
