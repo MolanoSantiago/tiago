@@ -1,22 +1,27 @@
 import React, { useEffect, useState } from "react";
-import { NSFW, SFW, COLORS } from "../../utils/constants";
+import { NSFW, SFW } from "../../utils/constants";
 import { postAnimePicsApi } from "../../config/artApi";
 import AnimePicsList from "../../components/arts/AnimePicsList";
 import Loading from "../../components/Loading";
 import { useToggle } from "../../hooks/useToggle";
 import Background from "../../components/Background";
+import AnimePicsTags from "../../components/arts/AnimePicsTags";
 
 export default function Animes() {
   const [animePics, setAnimePics] = useState([]);
-  const [sfwTags, setSfwTags] = useState([]);
-  const [nsfwTags, setNsfwTags] = useState([]);
+  const [sfwTags, setSfwTags] = useState(SFW);
+  const [nsfwTags, setNsfwTags] = useState(NSFW);
   const [loading, toggleLoading] = useToggle();
   const [refreshing, setRefreshing] = useState(false);
+  const [filter, setFilter] = useState({
+    type: "sfw",
+    tag: "waifu",
+  });
 
-  const loadAnimePics = async () => {
+  const loadAnimePics = async (filter) => {
     try {
       toggleLoading();
-      const response = await postAnimePicsApi();
+      const response = await postAnimePicsApi(filter);
 
       const animePicsArray = [];
 
@@ -25,7 +30,6 @@ export default function Animes() {
           image: pic,
           type: "sfw",
           tag: "waifu",
-          by: "default",
         });
       }
 
@@ -40,20 +44,33 @@ export default function Animes() {
 
   const onRefresh = () => {
     setRefreshing(true); // Comienza la actualización
-    loadAnimePics();
+    loadAnimePics(filter);
   };
 
   useEffect(() => {
     (async () => {
-      await loadAnimePics();
+      await loadAnimePics(filter);
     })();
-    setSfwTags(SFW);
-    setNsfwTags(NSFW);
-  }, []);
+  }, [filter]);
 
   return (
     <Background>
-      {loading ? <Loading /> : <AnimePicsList pics={animePics} onRefresh={onRefresh} refreshing={refreshing} />}
+      <AnimePicsTags
+        filter={filter}
+        setFilter={setFilter}
+        nsfw={nsfwTags}
+        sfw={sfwTags}
+        loadAnimePics={loadAnimePics}
+      />
+      {loading ? (
+        <Loading />
+      ) : (
+        <AnimePicsList
+          pics={animePics}
+          onRefresh={onRefresh}
+          refreshing={refreshing}
+        />
+      )}
     </Background>
   );
 }

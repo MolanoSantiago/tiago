@@ -59,7 +59,7 @@ export default function AnimePicsList({ pics, onRefresh, refreshing }) {
 const styles = StyleSheet.create({
   container: {
     height: screenHeight,
-    paddingTop: screenHeight * 0.04,
+    // paddingTop: screenHeight * 0.04,
   },
   flatListContainer: {
     // paddingTop: screenHeight * 0.045,
