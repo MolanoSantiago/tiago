@@ -28,8 +28,9 @@ export default function Animes() {
       for await (const pic of response.files) {
         animePicsArray.push({
           image: pic,
-          type: "sfw",
-          tag: "waifu",
+          type: filter.type,
+          tag: filter.tag,
+          isGif: pic.endsWith(".gif"),
         });
       }
 

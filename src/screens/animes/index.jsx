@@ -47,18 +47,16 @@ export default function Animes() {
         const response = await getAnimesSearchApi(search, page);
 
         if (search !== pagination.search) {
-          setAnimes(response.results);
+          setAnimes(response.data);
         } else {
-          setAnimes([...animes, ...response.results]);
+          setAnimes([...animes, ...response.data]);
         }
 
         setPagination({
-          currentPage: response.currentPage,
-          hasNextPage: response.hasNextPage,
-          nextPage: response.hasNextPage
-            ? Number(response.currentPage) + 1
-            : null,
-          totalPages: response.totalPages,
+          currentPage: response.meta.currentPage,
+          hasNextPage: !_.isNull(response.meta.next),
+          nextPage: response.meta.next,
+          totalPages: response.meta.total,
           search: search,
         });
       }

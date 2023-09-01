@@ -31,10 +31,15 @@ export default function AnimePicsList({ pics, onRefresh, refreshing }) {
             onPress={toggleVisibility}
             style={styles.closeButton}
           >
-            <Icon name="times-circle" color={COLORS.textLight} size={25} />
+            <Icon name="times-circle" color={COLORS.textLight} size={30} />
           </TouchableOpacity>
           {selectedImage && (
-            <Image source={{ uri: selectedImage }} style={styles.modalImage} />
+            <View style={styles.modalImageContainer}>
+              <Image
+                source={{ uri: selectedImage }}
+                style={styles.modalImage}
+              />
+            </View>
           )}
         </View>
       </Modal>
@@ -59,7 +64,7 @@ export default function AnimePicsList({ pics, onRefresh, refreshing }) {
 const styles = StyleSheet.create({
   container: {
     height: screenHeight,
-    // paddingTop: screenHeight * 0.04,
+    paddingBottom: screenHeight * 0.17,
   },
   flatListContainer: {
     // paddingTop: screenHeight * 0.045,
@@ -70,16 +75,19 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "rgba(0, 0, 0, 0.7)",
   },
-  modalImage: {
-    width: screenWidth * 0.8,
+  modalImageContainer: {
+    width: screenWidth * 0.9,
     height: screenHeight * 0.8,
-    borderRadius: 18,
-    resizeMode: "cover",
+    overflow: "hidden",
+  },
+  modalImage: {
+    flex: 1,
+    resizeMode: "contain",
   },
   closeButton: {
     position: "absolute",
-    top: 20,
-    right: 20,
+    top: 40,
+    right: 15,
     zIndex: 1,
   },
 });

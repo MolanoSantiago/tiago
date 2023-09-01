@@ -1,98 +1,108 @@
 import React from "react";
-import {
-  StyleSheet,
-  View,
-  Text,
-  Image,
-  TouchableOpacity,
-} from "react-native";
-import { COLORS, screenHeight } from "../../utils/constants";
+import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
+import { COLORS } from "../../utils/constants";
+import Icon from "react-native-vector-icons/FontAwesome5";
+import NumberWithSeparator from "../NumberWithSeparator";
 
 export default function AnimeSearchCard(props) {
   const { anime } = props;
 
   const goToAnime = () => {
-    console.log(`Vamos al anime: ${anime.title}`);
+    console.log(`Vamos al anime: ${anime.title.english}`);
+  };
+
+  const gradientColors = [COLORS.secundary, anime.color];
+
+  const createRating = ({ rating, total = 5, icon = "★", emptyIcon = "☆" }) => {
+    const scaledRating = Math.ceil(rating / 20);
+    const stars = icon.repeat(scaledRating);
+    const empty = emptyIcon.repeat(total - scaledRating);
+
+    return stars + empty;
   };
 
   return (
     <View style={styles.card}>
-      <View style={styles.spacing}>
-        <LinearGradient
-          colors={["#A71D31", "#3F0D12"]}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 1 }}
-          style={styles.bgStyles}
-        >
-          <View style={styles.infoContainer}>
-            <Text style={styles.name}>{anime.title}</Text>
-            <Text style={styles.type}>{anime.type}</Text>
-          </View>
-          <Image source={{ uri: anime.image }} style={styles.image} />
-          <TouchableOpacity style={styles.btn} onPress={goToAnime}>
-            <Text style={styles.btnText}>Ver</Text>
-          </TouchableOpacity>
-        </LinearGradient>
+      <LinearGradient colors={gradientColors} style={styles.infoContainer}>
+        <Text style={styles.name}>{anime.title.english}</Text>
+        <Text style={styles.format}>{anime.format}</Text>
+        <View style={styles.popularityContainer}>
+          <NumberWithSeparator
+            number={anime.popularity}
+            color={COLORS.textLight}
+          />
+          <Icon name="eye" color={COLORS.secundary} size={20} />
+        </View>
+        <Text style={styles.rating}>
+          {createRating({ rating: anime.averageScore })}
+        </Text>
+      </LinearGradient>
+      <View style={styles.coverImageContainer}>
+        <Image
+          source={{ uri: anime.coverImage }}
+          style={styles.coverImage}
+          resizeMode="contain"
+        />
       </View>
+      <TouchableOpacity style={styles.btn} onPress={goToAnime}>
+        <Text style={styles.btnText}>Ver</Text>
+      </TouchableOpacity>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   card: {
-    flex: 1,
-    height: 150,
-  },
-  spacing: {
-    flex: 1,
-    padding: 5,
-  },
-  bgStyles: {
-    flex: 1,
-    borderRadius: 15,
-    padding: 10,
-    position: "relative",
+    height: 180,
+    flexDirection: "row",
+    marginVertical: 10,
   },
   infoContainer: {
     flex: 1,
-    marginBottom: 10,
+    padding: 10,
+    borderBottomLeftRadius: 15,
+    borderTopLeftRadius: 15,
   },
   name: {
     color: COLORS.textLight,
     fontWeight: "bold",
     fontSize: 18,
-    width: 240,
   },
-  type: {
+  format: {
     color: COLORS.textLight,
-    fontSize: 15,
+    fontSize: 10,
   },
-  image: {
-    position: "absolute",
-    bottom: 0,
-    right: 0,
-    width: 120,
-    height: screenHeight * 0.177,
-    borderTopRightRadius: 15,
-    borderBottomRightRadius: 15,
-    resizeMode: "cover",
+  coverImageContainer: {
+    width: "35%",
+    overflow: "hidden",
+  },
+  coverImage: {
+    flex: 1,
+    resizeMode: "contain",
   },
   btn: {
-    position: "absolute",
-    bottom: 10,
-    left: 10,
     backgroundColor: COLORS.secundary,
     width: 80,
     height: 25,
     borderRadius: 15,
     justifyContent: "center",
     alignItems: "center",
+    position: "absolute",
+    bottom: 10,
+    left: 10,
   },
   btnText: {
     textAlign: "center",
     color: COLORS.textLight,
     fontWeight: "bold",
     fontSize: 15,
+  },
+  rating: {
+    color: "#E49B0F",
+  },
+  popularityContainer: {
+    flexDirection: "row",
+    alignItems: "center",
   },
 });

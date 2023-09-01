@@ -3,29 +3,35 @@ import React, { useEffect } from "react";
 import { COLORS, screenHeight } from "../../utils/constants";
 import { Picker } from "@react-native-picker/picker";
 
-export default function AnimePicsTags({
-  filter,
-  setFilter,
-  nsfw,
-  sfw,
-}) {
+export default function AnimePicsTags({ filter, setFilter, nsfw, sfw }) {
+  const handleTypeChange = (itemValue, itemIndex) => {
+    const newFilter = { ...filter, type: itemValue };
+
+    if (itemValue === "sfw" && !sfw.includes(filter.tag)) {
+      newFilter.tag = sfw[0];
+    } else if (itemValue === "nsfw" && !nsfw.includes(filter.tag)) {
+      newFilter.tag = nsfw[0];
+    }
+
+    setFilter(newFilter);
+  };
 
   return (
-    <View style={styles.container}>
+    <View
+      style={styles.container}
+    >
       <View style={styles.filterContainer}>
         <View style={styles.buttonContainer}>
           <Text style={styles.buttonText}>Tipo</Text>
           <Picker
             selectedValue={filter.type}
-            onValueChange={(itemValue, itemIndex) =>
-              setFilter({
-                ...filter,
-                type: itemValue,
-              })
-            }
+            onValueChange={handleTypeChange}
+            mode="dropdown"
+            dropdownIconColor={COLORS.textLight}
+            dropdownIconRippleColor={COLORS.textLight}
           >
-            <Picker.Item label="SFW" value="sfw" />
-            <Picker.Item label="NSFW" value="nsfw" />
+            <Picker.Item label="SFW" value="sfw" style={styles.labelText} />
+            <Picker.Item label="NSFW" value="nsfw" style={styles.labelText} />
           </Picker>
         </View>
         <View style={styles.buttonContainer}>
@@ -38,6 +44,9 @@ export default function AnimePicsTags({
                 tag: itemValue,
               })
             }
+            mode="dropdown"
+            dropdownIconColor={COLORS.textLight}
+            dropdownIconRippleColor={COLORS.textLight}
           >
             {filter.type === "sfw"
               ? sfw.map((category) => (
@@ -45,6 +54,7 @@ export default function AnimePicsTags({
                     key={category}
                     label={category}
                     value={category}
+                    style={styles.labelText}
                   />
                 ))
               : nsfw.map((category) => (
@@ -52,6 +62,7 @@ export default function AnimePicsTags({
                     key={category}
                     label={category}
                     value={category}
+                    style={styles.labelText}
                   />
                 ))}
           </Picker>
@@ -64,20 +75,24 @@ export default function AnimePicsTags({
 const styles = StyleSheet.create({
   container: {},
   filterContainer: {
-    paddingTop: screenHeight * 0.08,
+    paddingTop: screenHeight * 0.05,
     paddingHorizontal: 10,
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",
-    backgroundColor: COLORS.primary,
+    backgroundColor: COLORS.secundary,
   },
   buttonContainer: {
     padding: 10,
     borderRadius: 15,
-    width: 180
+    width: 180,
   },
   buttonText: {
+    color: COLORS.primary,
+    fontWeight: "bold",
+  },
+  labelText: {
     color: COLORS.textLight,
-    fontWeight: "bold"
+    backgroundColor: COLORS.secundary,
   },
 });

@@ -21,7 +21,7 @@ export default function Navigation() {
           tabBarLabel: "Animes",
           tabBarActiveTintColor: COLORS.primary,
           tabBarIcon: ({ color, size }) => (
-            <Icon name="pencil-alt" color={COLORS.primary} size={25} />
+            <Icon name="play-circle" color={COLORS.primary} size={25} />
           ),
         }}
       />

@@ -27,7 +27,11 @@ export default function AnimeSearchList({
       ListFooterComponent={
         loading &&
         pagination.hasNextPage && (
-          <SkypeIndicator style={styles.spinner} color={COLORS.primary} size={30} />
+          <SkypeIndicator
+            style={styles.spinner}
+            color={COLORS.primary}
+            size={30}
+          />
         )
       }
     />

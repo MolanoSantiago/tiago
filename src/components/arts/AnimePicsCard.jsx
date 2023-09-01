@@ -1,6 +1,6 @@
 import { View, StyleSheet, Image, TouchableOpacity } from "react-native";
 import React from "react";
-import { screenWidth } from "../../utils/constants";
+import { COLORS, screenWidth } from "../../utils/constants";
 
 export default function AnimePicsCard({ item, toggleModal }) {
   return (
@@ -18,6 +18,15 @@ export default function AnimePicsCard({ item, toggleModal }) {
 const styles = StyleSheet.create({
   imageViewContainer: {
     flex: 1,
+    alignItems: "center",
+  },
+  gif: {
+    width: screenWidth / 3,
+    height: screenWidth / 3,
+    borderColor: COLORS.secundary,
+    borderWidth: 1,
+    flexDirection: "row",
+    justifyContent: "center",
     alignItems: "center",
   },
 });
