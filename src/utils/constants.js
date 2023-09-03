@@ -44,9 +44,9 @@ export const { width: screenWidth, height: screenHeight } =
   Dimensions.get("window");
 
 export const COLORS = {
-  primary: "#df2935",
+  primary: "#06bcee",
   secundary: "#1e1f26",
-  ternary: "#DE544E",
+  ternary: "#ff6600",
   textLight: "#efefef",
   textDark: "#010606",
 };

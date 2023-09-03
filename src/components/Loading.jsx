@@ -1,12 +1,11 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
-import { SkypeIndicator } from "react-native-indicators";
+import { ActivityIndicator, StyleSheet, View } from "react-native";
 import { COLORS, screenHeight, screenWidth } from "../utils/constants";
 
 const Loading = ({size}) => {
   return (
     <View style={styles.loading}>
-      <SkypeIndicator color={COLORS.primary} size={size ?? 50} />
+      <ActivityIndicator color={COLORS.primary} size={size ?? 50} />
     </View>
   );
 };

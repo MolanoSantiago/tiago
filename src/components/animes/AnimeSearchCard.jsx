@@ -4,49 +4,56 @@ import { LinearGradient } from "expo-linear-gradient";
 import { COLORS } from "../../utils/constants";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import NumberWithSeparator from "../NumberWithSeparator";
+import _ from "lodash";
+import { useNavigation } from "@react-navigation/native";
+import AnimeRating from "./AnimeRating";
 
 export default function AnimeSearchCard(props) {
   const { anime } = props;
 
+  const { scaledRating, stars } = AnimeRating({ rating: anime.averageScore });
+
+  const navigation = useNavigation();
+
   const goToAnime = () => {
-    console.log(`Vamos al anime: ${anime.title.english}`);
+    navigation.navigate("Anime", {
+      id: anime.id,
+    });
   };
 
-  const gradientColors = [COLORS.secundary, anime.color];
+  const gradientColors = [COLORS.secundary, anime.color ?? COLORS.primary];
 
-  const createRating = ({ rating, total = 5, icon = "★", emptyIcon = "☆" }) => {
-    const scaledRating = Math.ceil(rating / 20);
-    const stars = icon.repeat(scaledRating);
-    const empty = emptyIcon.repeat(total - scaledRating);
-
-    return stars + empty;
+  const nameTruncated = (name) => {
+    return _.truncate(name, {
+      length: 70,
+      omission: "...",
+    });
   };
 
   return (
-    <View style={styles.card}>
-      <LinearGradient colors={gradientColors} style={styles.infoContainer}>
-        <Text style={styles.name}>{anime.title.english}</Text>
-        <Text style={styles.format}>{anime.format}</Text>
-        <View style={styles.popularityContainer}>
-          <NumberWithSeparator
-            number={anime.popularity}
-            color={COLORS.textLight}
+    <View>
+      <TouchableOpacity style={styles.card} onPress={goToAnime}>
+        <LinearGradient colors={gradientColors} style={styles.infoContainer}>
+          <Text style={styles.name}>
+            {nameTruncated(anime.title.english ?? anime.title.userPreferred)}
+          </Text>
+          <Text style={styles.format}>{anime.format}</Text>
+          <View style={styles.popularityContainer}>
+            <NumberWithSeparator
+              number={anime.popularity}
+              color={COLORS.textLight}
+            />
+            <Icon name="eye" color={COLORS.secundary} size={20} />
+          </View>
+          <Text style={styles.rating}>{stars}</Text>
+        </LinearGradient>
+        <View style={styles.coverImageContainer}>
+          <Image
+            source={{ uri: anime.coverImage }}
+            style={styles.coverImage}
+            resizeMode="contain"
           />
-          <Icon name="eye" color={COLORS.secundary} size={20} />
         </View>
-        <Text style={styles.rating}>
-          {createRating({ rating: anime.averageScore })}
-        </Text>
-      </LinearGradient>
-      <View style={styles.coverImageContainer}>
-        <Image
-          source={{ uri: anime.coverImage }}
-          style={styles.coverImage}
-          resizeMode="contain"
-        />
-      </View>
-      <TouchableOpacity style={styles.btn} onPress={goToAnime}>
-        <Text style={styles.btnText}>Ver</Text>
       </TouchableOpacity>
     </View>
   );
@@ -54,7 +61,7 @@ export default function AnimeSearchCard(props) {
 
 const styles = StyleSheet.create({
   card: {
-    height: 180,
+    height: 190,
     flexDirection: "row",
     marginVertical: 10,
   },
@@ -80,26 +87,6 @@ const styles = StyleSheet.create({
   coverImage: {
     flex: 1,
     resizeMode: "contain",
-  },
-  btn: {
-    backgroundColor: COLORS.secundary,
-    width: 80,
-    height: 25,
-    borderRadius: 15,
-    justifyContent: "center",
-    alignItems: "center",
-    position: "absolute",
-    bottom: 10,
-    left: 10,
-  },
-  btnText: {
-    textAlign: "center",
-    color: COLORS.textLight,
-    fontWeight: "bold",
-    fontSize: 15,
-  },
-  rating: {
-    color: "#E49B0F",
   },
   popularityContainer: {
     flexDirection: "row",

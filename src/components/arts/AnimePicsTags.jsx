@@ -31,7 +31,7 @@ export default function AnimePicsTags({ filter, setFilter, nsfw, sfw }) {
             dropdownIconRippleColor={COLORS.textLight}
           >
             <Picker.Item label="SFW" value="sfw" style={styles.labelText} />
-            <Picker.Item label="NSFW" value="nsfw" style={styles.labelText} />
+            <Picker.Item label="NSFW" value="nsfw" style={styles.labelText} enabled={false} />
           </Picker>
         </View>
         <View style={styles.buttonContainer}>
@@ -73,14 +73,15 @@ export default function AnimePicsTags({ filter, setFilter, nsfw, sfw }) {
 }
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    backgroundColor: COLORS.secundary,
+  },
   filterContainer: {
-    paddingTop: screenHeight * 0.05,
     paddingHorizontal: 10,
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",
-    backgroundColor: COLORS.secundary,
+    backgroundColor: "transparent",
   },
   buttonContainer: {
     padding: 10,

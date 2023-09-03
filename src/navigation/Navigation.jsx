@@ -1,7 +1,7 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import React from "react";
 import Icon from "react-native-vector-icons/FontAwesome5";
-import { Image } from "react-native";
+import { Image, StyleSheet } from "react-native";
 import AccountNavigation from "./AccountNavigation";
 import ArtsNavigation from "./ArtsNavigation";
 import AnimesNavigation from "./AnimesNavigation";
@@ -11,7 +11,13 @@ const Tab = createBottomTabNavigator();
 
 export default function Navigation() {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        headerShown: false,
+        tabBarStyle: styles.tabBar,
+        tabBarHideOnKeyboard: true,
+      })}
+    >
       <Tab.Screen
         name="AnimesNavigator"
         component={AnimesNavigation}
@@ -21,7 +27,7 @@ export default function Navigation() {
           tabBarLabel: "Animes",
           tabBarActiveTintColor: COLORS.primary,
           tabBarIcon: ({ color, size }) => (
-            <Icon name="play-circle" color={COLORS.primary} size={25} />
+            <Icon name="film" color={COLORS.primary} size={25} />
           ),
         }}
       />
@@ -60,3 +66,10 @@ function renderMainImage() {
     />
   );
 }
+
+const styles = StyleSheet.create({
+  tabBar: {
+    backgroundColor: COLORS.secundary,
+    borderTopWidth: 0,
+  },
+});

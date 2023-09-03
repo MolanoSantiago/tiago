@@ -4,7 +4,6 @@ import {
   View,
   TouchableOpacity,
   ActivityIndicator,
-  Platform,
 } from "react-native";
 import React from "react";
 import _ from "lodash";
@@ -14,29 +13,33 @@ import Icon from "react-native-vector-icons/FontAwesome5";
 export default function AnimeSearchBar({
   search,
   setSearch,
+  pagination,
   animes,
   handlerSearch,
   clearStates,
+  loading,
 }) {
+  const newSearch = async () => {
+    await clearStates(true);
+    await handlerSearch("");
+  };
+
   return (
     <View style={styles.searchContainer}>
       <View style={styles.inputContainer}>
         <TextInput
-          placeholder="Buscar anime"
+          placeholder="Search anime"
           clearButtonMode="always"
           style={styles.searchInput}
           value={search}
           onChangeText={setSearch}
         />
       </View>
-      {search !== "" && !_.isEmpty(animes) ? (
-        <TouchableOpacity
-          style={styles.searchButton}
-          onPress={() => {
-            clearStates(true);
-          }}
-        >
-          <Icon name="times" color={COLORS.textLight} size={18} />
+      {loading ? (
+        <ActivityIndicator size="large" color={COLORS.primary} />
+      ) : pagination.search !== "" && !_.isEmpty(animes) ? (
+        <TouchableOpacity style={styles.searchButton} onPress={newSearch}>
+          <Icon name="times" color={COLORS.primary} size={20} />
         </TouchableOpacity>
       ) : (
         <TouchableOpacity
@@ -45,7 +48,7 @@ export default function AnimeSearchBar({
             handlerSearch(search);
           }}
         >
-          <Icon name="search" color={COLORS.textLight} size={18} />
+          <Icon name="search" color={COLORS.primary} size={20} />
         </TouchableOpacity>
       )}
     </View>
@@ -54,7 +57,7 @@ export default function AnimeSearchBar({
 
 const styles = StyleSheet.create({
   searchContainer: {
-    paddingTop: screenHeight * 0.08,
+    paddingTop: screenHeight * 0.02,
     paddingBottom: 20,
     paddingHorizontal: 10,
     flexDirection: "row",
@@ -67,17 +70,13 @@ const styles = StyleSheet.create({
   },
   searchInput: {
     paddingHorizontal: 20,
-    borderColor: COLORS.primary,
-    borderWidth: 1,
     borderRadius: 15,
     height: screenHeight * 0.06,
     backgroundColor: COLORS.textLight,
   },
   searchButton: {
-    backgroundColor: COLORS.primary,
-    borderRadius: 15,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
+    marginVertical: 10,
+    marginHorizontal: 10,
     height: screenHeight * 0.06,
     justifyContent: "center",
     alignItems: "center",

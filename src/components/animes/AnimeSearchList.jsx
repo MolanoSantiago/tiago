@@ -1,8 +1,7 @@
 import React from "react";
-import { StyleSheet, FlatList, Platform } from "react-native";
+import { StyleSheet, FlatList, Platform, ActivityIndicator } from "react-native";
 import AnimeSearchCard from "./AnimeSearchCard";
 import { COLORS, screenHeight } from "../../utils/constants";
-import { SkypeIndicator } from "react-native-indicators";
 
 export default function AnimeSearchList({
   animes,
@@ -27,7 +26,7 @@ export default function AnimeSearchList({
       ListFooterComponent={
         loading &&
         pagination.hasNextPage && (
-          <SkypeIndicator
+          <ActivityIndicator
             style={styles.spinner}
             color={COLORS.primary}
             size={30}
